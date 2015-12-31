@@ -12,6 +12,13 @@ use App\Http\Controllers\Controller;
 
 class TasksController extends Controller
 {
+    	protected $rules = [
+		'name' => ['required', 'min:3'],
+		'slug' => ['required'],
+		'description' => ['required'],
+	];
+ 
+    
     public function index(Project $project){
        return view('tasks.index', compact('project'));
     }
@@ -20,14 +27,16 @@ class TasksController extends Controller
         return view('tasks.create', compact('project'));
     }
     
-public function store(Project $project)
-{
-	$input = Request::all();
-	$input['project_id'] = $project->id;
-	Task::create( $input );
+	public function store(Project $project, Request $request)
+	{
+		$this->validate($request, $this->rules);
  
-	return Redirect::route('projects.show', $project->slug)->with('message', 'Task created.');
-}
+		$input = Input::all();
+		$input['project_id'] = $project->id;
+		Task::create( $input );
+ 
+		return Redirect::route('projects.show', $project->slug)->with('Task created.');
+	}
     
     public function show(Project $project, Task $task){
         return view('tasks.show', compact('project', 'task'));
@@ -39,7 +48,7 @@ public function store(Project $project)
     
 public function update(Project $project, Task $task)
 {
-	$input = array_except(Input::all(), '_method');
+	$input = array_except(Request::all(), '_method');
 	$task->update($input);
  
 	return Redirect::route('projects.tasks.show', [$project->slug, $task->slug])->with('message', 'Task updated.');
