@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class ProjectsController extends Controller
 {
     public function index(){
-        $project = Project::all();
+        $projects = Project::all();
         return view('projects.index', compact('projects'));
     }
     

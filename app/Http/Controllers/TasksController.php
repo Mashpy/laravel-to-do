@@ -27,7 +27,15 @@ class TasksController extends Controller
     }
     
     public function edit(Project $project, Task $task){
-        return view('tasks.edit', compact('project', task));
+        return view('tasks.edit', compact('project', 'task'));
+    }
+    
+    public function update(Project $project, Task $task){
+        
+    }
+    
+    public function destroy(Project $project, Task $task){
+        
     }
     
 }
