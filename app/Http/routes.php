@@ -39,4 +39,4 @@ Route::bind('projects', function($value, $route){
 });
 
 Route::resource('projects', 'ProjectsController');
-Route::resource('projects.task', 'TasksController');
+Route::resource('projects.tasks', 'TasksController');
