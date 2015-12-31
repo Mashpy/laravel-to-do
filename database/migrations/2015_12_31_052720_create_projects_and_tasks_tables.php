@@ -14,8 +14,22 @@ class CreateProjectsAndTasksTables extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->default('');
+            $table->string('slug')->default('');
             $table->timestamps();
         });
+        
+        Schema::create('tasks', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('project_id')->unsigned()->default(0);
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->string('name')->default('');
+            $table->string('slug')->default('');
+            $table->boolean('completed')->default(false);
+            $table->text('description')->default('');
+            $table->timestamps();
+        });
+        
     }
 
     /**
@@ -26,5 +40,6 @@ class CreateProjectsAndTasksTables extends Migration
     public function down()
     {
         Schema::drop('projects');
+        Schema::drop('tasks');
     }
 }
